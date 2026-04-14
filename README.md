@@ -29,12 +29,12 @@ Versioning follows [Conventional Commits](https://www.conventionalcommits.org): 
 s3browser --bucket <bucket-name> [options]
 ```
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--bucket` | — | Bucket name (required). Can also be set via `S3_BUCKET` env var |
-| `--region` | `us-east-1` | AWS region. Can also be set via `AWS_DEFAULT_REGION` |
-| `--profile` | — | AWS credentials profile from `~/.aws/credentials` |
-| `--endpoint` | — | Custom endpoint URL for S3-compatible services (e.g. MinIO) |
+| Flag         | Default     | Description                                                     |
+| ------------ | ----------- | --------------------------------------------------------------- |
+| `--bucket`   | —           | Bucket name (required). Can also be set via `S3_BUCKET` env var |
+| `--region`   | `us-east-1` | AWS region. Can also be set via `AWS_DEFAULT_REGION`            |
+| `--profile`  | —           | AWS credentials profile from `~/.aws/credentials`               |
+| `--endpoint` | —           | Custom endpoint URL for S3-compatible services (e.g. MinIO)     |
 
 ## Authentication
 
@@ -100,9 +100,9 @@ Point `--endpoint` at any S3-compatible service. The app uses path-style URLs au
 # MinIO
 s3browser --bucket my-bucket --endpoint http://localhost:9000
 
-# Intility or other hosted S3-compatible services
+# S3-compatible services
 AWS_ACCESS_KEY_ID=key AWS_SECRET_ACCESS_KEY=secret \
-  s3browser --bucket my-bucket --endpoint https://s3.intility.com
+  s3browser --bucket my-bucket --endpoint https://s3.xxxxx.com
 
 # LocalStack
 s3browser --bucket my-bucket --endpoint http://localhost:4566 --region us-east-1
@@ -120,7 +120,7 @@ summer/
 IMG_0042.jpg                         4.2 MB   2024-08-15 12:30:00
 IMG_0043.jpg                         3.8 MB   2024-08-15 12:31:04
 ──────────────────────────────────────────────────────────────────
-s3.intility.com      ↑↓ move  Enter/→ open  ← back  D del  U upload  Q quit
+s3.xxxxx.com      ↑↓ move  Enter/→ open  ← back  D del  U upload  Q quit
 ```
 
 - The breadcrumb at the top updates as you navigate into folders.
@@ -129,16 +129,16 @@ s3.intility.com      ↑↓ move  Enter/→ open  ← back  D del  U upload  Q q
 
 ## Key bindings
 
-| Key | Action |
-|-----|--------|
-| `↑` / `↓` or `k` / `j` | Move cursor |
-| `Enter` / `→` | Open folder, or download and open file with default app |
-| `←` / `Backspace` | Go up one level |
-| `n` | Next page (buckets with >1000 objects) |
-| `p` | Previous page |
-| `d` | Delete selected file (asks for confirmation) |
-| `u` | Upload a local file to the current prefix |
-| `q` / `Ctrl+C` | Quit |
+| Key                    | Action                                                  |
+| ---------------------- | ------------------------------------------------------- |
+| `↑` / `↓` or `k` / `j` | Move cursor                                             |
+| `Enter` / `→`          | Open folder, or download and open file with default app |
+| `←` / `Backspace`      | Go up one level                                         |
+| `n`                    | Next page (buckets with >1000 objects)                  |
+| `p`                    | Previous page                                           |
+| `d`                    | Delete selected file (asks for confirmation)            |
+| `u`                    | Upload a local file to the current prefix               |
+| `q` / `Ctrl+C`         | Quit                                                    |
 
 ## Uploading files
 
