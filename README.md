@@ -81,7 +81,7 @@ When running on AWS infrastructure (EC2, ECS, Lambda), credentials are picked up
 
 ## S3-compatible services
 
-Point `--endpoint` at any S3-compatible service. The app uses path-style URLs automatically when an endpoint is set.
+Point `--endpoint` at any S3-compatible service. The app uses path-style URLs automatically when an endpoint is set. The endpoint hostname is shown in the status bar while the app is running.
 
 ```bash
 # MinIO
@@ -95,12 +95,31 @@ AWS_ACCESS_KEY_ID=key AWS_SECRET_ACCESS_KEY=secret \
 s3browser --bucket my-bucket --endpoint http://localhost:4566 --region us-east-1
 ```
 
+## Interface
+
+```
+Bucket: my-bucket / photos / 2024
+──────────────────────────────────────────────────────────────────
+Name                                  Size       Modified
+──────────────────────────────────────────────────────────────────
+autumn/
+summer/
+IMG_0042.jpg                         4.2 MB   2024-08-15 12:30:00
+IMG_0043.jpg                         3.8 MB   2024-08-15 12:31:04
+──────────────────────────────────────────────────────────────────
+s3.intility.com      ↑↓ move  Enter/→ open  ← back  D del  U upload  Q quit
+```
+
+- The breadcrumb at the top updates as you navigate into folders.
+- The status bar shows the connected endpoint on the left and key hints on the right.
+- During upload, the status bar shows a live progress bar with speed and ETA.
+
 ## Key bindings
 
 | Key | Action |
 |-----|--------|
 | `↑` / `↓` or `k` / `j` | Move cursor |
-| `Enter` / `→` | Open folder or open file with default app |
+| `Enter` / `→` | Open folder, or download and open file with default app |
 | `←` / `Backspace` | Go up one level |
 | `n` | Next page (buckets with >1000 objects) |
 | `p` | Previous page |
@@ -108,6 +127,16 @@ s3browser --bucket my-bucket --endpoint http://localhost:4566 --region us-east-1
 | `u` | Upload a local file to the current prefix |
 | `q` / `Ctrl+C` | Quit |
 
-## How file opening works
+## Uploading files
 
-Pressing `Enter` on a file downloads it to your system temp directory and opens it with the OS default application for that file type. The file persists in temp after the app closes so you don't need to wait for it to finish loading.
+Press `u` and enter the path to a local file. On Windows, you can paste a path copied with "Copy as path" — surrounding quotes are stripped automatically.
+
+While uploading, the status bar shows live progress:
+
+```
+Uploading report.pdf  ████████░░░░░░░░  50%  5.0 / 10.0 MB  2.1 MB/s  ETA 2s
+```
+
+## Opening files
+
+Pressing `Enter` on a file downloads it to your system temp directory and opens it with the OS default application for that file type. The file persists in temp after closing so it keeps loading in the background.
