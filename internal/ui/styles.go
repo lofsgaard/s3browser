@@ -49,10 +49,18 @@ var (
 				Foreground(lipgloss.Color("243")).
 				Padding(0, 1)
 
+	styleStatusBarEndpoint = lipgloss.NewStyle().
+				Background(lipgloss.Color("235")).
+				Foreground(lipgloss.Color("74")).
+				Padding(0, 1)
+
 	styleError = lipgloss.NewStyle().
 			Foreground(lipgloss.Color("167")).
 			Bold(true)
 
 	styleLoading = lipgloss.NewStyle().
 			Foreground(lipgloss.Color("243"))
+
+	styleBreadcrumb = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("245"))
 )

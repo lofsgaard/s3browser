@@ -93,6 +93,7 @@ func waitForProgress(ch <-chan uploadProgressMsg) tea.Cmd {
 
 type BrowserModel struct {
 	s3             *s3client.Client
+	bucket         string
 	currentPrefix  string
 	prefixStack    []string
 	pageHistory    []string
@@ -110,13 +111,14 @@ type BrowserModel struct {
 	width          int
 }
 
-func newBrowser(client *s3client.Client, width, height int) BrowserModel {
+func newBrowser(client *s3client.Client, bucket string, width, height int) BrowserModel {
 	ti := textinput.New()
 	ti.Placeholder = "Local file path..."
 	ti.CharLimit = 512
 
 	return BrowserModel{
 		s3:          client,
+		bucket:      bucket,
 		loading:     true,
 		height:      height,
 		width:       width,
@@ -405,12 +407,23 @@ func (b BrowserModel) handleUploadInput(msg tea.KeyMsg) (BrowserModel, tea.Cmd) 
 
 // -- view ---------------------------------------------------------------------
 
+func (b BrowserModel) breadcrumb() string {
+	parts := []string{"Bucket: " + b.bucket}
+	if b.currentPrefix != "" {
+		segs := strings.Split(strings.TrimSuffix(b.currentPrefix, "/"), "/")
+		parts = append(parts, segs...)
+	}
+	return styleBreadcrumb.Render(strings.Join(parts, " / "))
+}
+
 func (b BrowserModel) View() string {
+	crumb := b.breadcrumb()
+
 	if b.loading {
-		return styleLoading.Render("  Loading...")
+		return crumb + "\n" + styleLoading.Render("  Loading...")
 	}
 	if len(b.entries) == 0 {
-		return styleLoading.Render("  (empty)")
+		return crumb + "\n" + styleLoading.Render("  (empty)")
 	}
 
 	tableWidth := b.width
@@ -430,9 +443,9 @@ func (b BrowserModel) View() string {
 	)
 
 	var rows []string
-	rows = append(rows, header)
+	rows = append(rows, crumb, header)
 
-	maxRows := b.height - 2
+	maxRows := b.height - 3
 	if maxRows < 1 {
 		maxRows = 1
 	}

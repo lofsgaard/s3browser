@@ -15,8 +15,8 @@ type Model struct {
 
 func NewModel(cfg config.AppConfig, client *s3client.Client) Model {
 	return Model{
-		browser:   newBrowser(client, 80, 24),
-		statusBar: newStatusBar(cfg.Bucket, 80),
+		browser:   newBrowser(client, cfg.Bucket, 80, 24),
+		statusBar: newStatusBar(cfg.Endpoint, 80),
 	}
 }
 
@@ -42,7 +42,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	var cmd tea.Cmd
 	m.browser, cmd = m.browser.Update(msg)
-	m.statusBar.currentPrefix = m.browser.currentPrefix
 	return m, cmd
 }
 
