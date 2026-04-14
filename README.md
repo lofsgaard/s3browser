@@ -4,11 +4,24 @@ An interactive terminal browser for S3-compatible object storage. Navigate bucke
 
 ## Installation
 
+Download the latest binary from the [releases page](https://github.com/lofsgaard/s3browser/releases), or build from source:
+
 ```bash
 git clone https://github.com/lofsgaard/s3browser
 cd s3browser
 go build -o s3browser.exe .
 ```
+
+## Releases
+
+Releases are automated using [release-please](https://github.com/googleapis/release-please) and [GoReleaser](https://goreleaser.com). Merging a release PR created by release-please triggers GoReleaser, which builds and uploads binaries for:
+
+- Linux (amd64) — `.tar.gz`
+- Windows (amd64) — `.zip`
+
+Versioning follows [Conventional Commits](https://www.conventionalcommits.org): `feat:` bumps minor, `fix:` bumps patch, `feat!:` bumps major.
+
+> **Repository setup:** GitHub Actions must be allowed to create pull requests. Enable this under **Settings → Actions → General → Workflow permissions → Allow GitHub Actions to create and approve pull requests**.
 
 ## Usage
 
